@@ -3,23 +3,40 @@ import { Typography, Box, Stack } from '@mui/material';
 import Loader from './Loader';
 
 const ExerciseVideos = ({ exerciseVideos, name }) => {
+  // If there are no exercise videos, show the loader
   if (!exerciseVideos.length) return <Loader />;
 
   return (
     <Box sx={{ marginTop: { lg: '203px', xs: '20px' } }} p="20px">
+      {/* Heading with dynamic exercise name */}
       <Typography sx={{ fontSize: { lg: '44px', xs: '25px' } }} fontWeight={700} color="#000" mb="33px">
         Watch <span style={{ color: '#FF2625', textTransform: 'capitalize' }}>{name}</span> exercise videos
       </Typography>
-      <Stack sx={{ flexDirection: { lg: 'row' }, gap: { lg: '110px', xs: '0px' } }} justifyContent="flex-start" flexWrap="wrap" alignItems="center">
+
+      {/* Flex container for laying out video cards */}
+      <Stack
+        sx={{ flexDirection: { lg: 'row' }, gap: { lg: '110px', xs: '0px' } }}
+        justifyContent="flex-start"
+        flexWrap="wrap"
+        alignItems="center"
+      >
+        {/* Limit to the first 3 videos and render each */}
         {exerciseVideos?.slice(0, 3)?.map((item, index) => (
           <a
             key={index}
             className="exercise-video"
             href={`https://www.youtube.com/watch?v=${item.video.videoId}`}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer" // 👈 important for security when using target="_blank"
           >
-            <img style={{ borderTopLeftRadius: '20px' }} src={item.video.thumbnails[0].url} alt={item.video.title} />
+            {/* Thumbnail of the video */}
+            <img
+              style={{ borderTopLeftRadius: '20px' }}
+              src={item.video.thumbnails[0].url}
+              alt={item.video.title}
+            />
+            
+            {/* Video title and channel name */}
             <Box>
               <Typography sx={{ fontSize: { lg: '28px', xs: '18px' } }} fontWeight={600} color="#000">
                 {item.video.title}
